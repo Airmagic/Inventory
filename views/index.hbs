@@ -11,13 +11,22 @@
 	<form method='POST' action='/addItem'>
 		Name:<input name='name' required/>
 		<br>Description: <input name='description'/>
-		<br>Quanity: <input name='quanity'/>
+		<br>Quanity: <input name='quanity' value='1'/>
 		<br>Location:<input name='storageLocation'/>
-		<input type="hidden" name'location'/>
-		<input type="hidden" name'dateTaken'/>
+		<input type="hidden" name='location'/>
+		<input type="hidden" name='dateTaken'/>
+		<input type='hidden' name='whoBarrowed'/>
 		<br><input type='submit' value='Enter Item'>
 	</form>
+
+	<div class='flash-errors'>
+		{{#if messages}}
+			<p class='error-message'>{{messages.error}}</p>
+		{{/if}}
+	</div>
+
 </div>
+
 
 <div class='items-list'>
 	<h2>List of items</h2>

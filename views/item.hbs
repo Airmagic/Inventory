@@ -4,6 +4,88 @@
 	
 	<h2>Description</h2>
 	
-	<p>{{item.description}}</p>
+	{{!-- Calling the description from the server --}}
 	
-	<
+	{{!-- making a form to make changes to the description --}}
+	<form method='POST' action="/changeDescription">
+		<textarea rows="16" cols="26" name="description">{{item.description}}</textarea>
+		<input type='hidden' name='_id' value='{{item._id}}'>
+		<p>Add to or change the description</p>
+		<input class='submit' type='submit' value='Submit'>
+	</form>
+	
+	<h2>Quanity</h2>
+	
+	
+	
+	{{!-- making a form to post a canged to average eggs --}}
+	<form method='POST' action='/changeItemQuanity'>
+		<input type='number' min='0' max='400' name='quanity' value='{{item.quanity}}'>
+		<input type='hidden' name='_id' value='{{item._id}}'>
+		{{!-- calling the Quanity from the server --}}
+		<p>Change the Quanity of the {{item.name}}</p>
+		<input class='submit' type='submit' value='Submit'>
+	</form>
+	
+	<h2>Stored Location</h2>
+	
+	<form method='POST' action="/changeStorageLocation">
+		<input name="storageLocation" value='{{item.storageLocation}}'/>
+		<input type='hidden' name='_id' value='{{item._id}}'>
+		<p></p>
+		<input class='submit' type='submit' value='Submit'>
+	</form>
+	
+	<p>{{item.storageLocation}}</p>
+	
+	<h2>Checked out 
+	<br>Date/Location/Who</h2>
+	
+	{{! form to take in the information for the date barrowed }}
+	<form method='POST' action="/addDateBarrowed">
+		<p>Barrowed date: 
+			<div class="dateBarrowed">
+				{{#each item.dateTaken}}
+					{{! formated the date so it is more readible }}
+					<p>{{formatDate this}}</p>
+				{{else}}
+					<p>{{item.name}} has not been barrowed</p>
+				{{/each}}
+			</div>
+		</p>
+		<input type='date' name='dateTaken'>
+		<input type='hidden' name='_id' value='{{item._id}}'>
+		<p></p>
+		<input class='submit' type='submit' value='Submit'>
+	</form>
+	
+	<p>Location: </p>
+	
+	<form method='POST' action="/changeBarrowedLocation">
+		<input name="location" value='{{item.location}}'/>
+		<input type='hidden' name='_id' value='{{item._id}}'>
+		<p></p>
+		<input class='submit' type='submit' value='Submit'>
+	</form>
+
+	
+	<p>Who Barrowed {{item.name}}</p>
+	
+	<form method='POST' action="/changeWhoBarrowed">
+		<input name="whoBarrowed" value='{{item.whoBarrowed}}'/>
+		<input type='hidden' name='_id' value='{{item._id}}'>
+		<p></p>
+		<input class='submit' type='submit' value='Submit'>
+	</form>
+	
+	</br>
+
+	<h2>If you want to delete this Item</h2>
+			
+	{{! A button to delete the bird from the DB }}
+	<form action='/delete' method='POST' class='delete_form'>
+		<input type='hidden' name='_id' value='{{item._id}}'>
+		<input class='delete_button' type='submit' name='delete' value='Delete {{item.name}}'>
+	</form>
+	
+</div>
