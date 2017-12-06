@@ -9,9 +9,9 @@ var flash = require('express-flash');
 var session = require('express-session');
 var hbs = require('hbs');
 var helpers = require('./hbshelpers/helpers');
-var mongoose = require(mongoose);
+var mongoose = require('mongoose');
 var MongoDBStore = require('connect-mongodb-session')(session);
-var passport = required('passport');
+var passport = require('passport');
 var passportConfig = require('./config/passport')(passport);
 
 //seting the enivroment varible for the page
@@ -24,7 +24,7 @@ mongoose.connect(mongo_url, { useMongoClient: true })
 	.catch( (err) => { console.log('Error connecting to MongoDB', err);});
 
 var items = require('./routes/items');
-var auth = require('routes/auth');
+var auth = require('./routes/auth');
 
 var app = express();
 
@@ -48,7 +48,6 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
 var store = MongoDBStore({ uri: mongo_url, collection : 'items_session'});
 app.use(session({
@@ -63,8 +62,9 @@ app.use(passport.session());
 	
 app.use(flash());
 
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/auth',auth); //order matters
+app.use('/auth', auth); //order matters
 app.use('/', items);
 
 

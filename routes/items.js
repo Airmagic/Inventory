@@ -1,15 +1,32 @@
 var express = require('express');
 var router = express.Router();
 var Item = require('../models/item');
+var ObjectID = require('mongoose').mongo.ObjectID;
+
+/* Middleware, to verify if the user is authenticated */
+function isLoggedIn(req, res, next) {
+  console.log('user is auth ', req.user)
+  if (req.isAuthenticated()) {
+    res.locals.username = req.user.local.username;
+    next();
+  } else {
+    res.redirect('/auth');
+  }
+}
+
+/* Apply this middleware to every route in the file, so don't need to
+specify it for every router */
+router.use(isLoggedIn);
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
 	
-	Item.find().select( { name: 1 } ).sort( {name: 1} )
+	Item.find( {creator:req.user._id} ).sort( {name: 1} )
 		.then( (docs) => {
 			console.log(docs); //helps when trouble shooting
 			res.render('index', { title: 'All Items', items: docs });
-		}).catch( (err) => {
+		})
+		.catch( (err) => {
 			next(err)
 		});
   
@@ -17,14 +34,17 @@ router.get('/', function(req, res, next) {
 
 /* Get info about items  */
 router.get('/item/:_id', function(req,res,next){
-	Item.findOne( {_id: req.params._id})
-		.then( (doc) => {
-			if (doc) {
-				res.render('item', {item:doc });
+	Item.findOne( {creator:req.user._id, _id: req.params._id})
+		.then( (item) => {
+			if (!item) {
+				res.status(404).send('Item Not found'); //error handler
 			}
-			else{
-				res.status(404);
-				next(Error('Item not found')); //error handler
+			else if ( req.user._id.equals(item.creator)){
+				res.render('item', {title: 'Item', item: item });
+			}
+			else {				
+				//not this user's Item. 403 fornbidden
+				res.statue(403).send('This is not one of your items, you can not view it');
 			}
 		})
 		.catch( (err) => {
@@ -35,34 +55,41 @@ router.get('/item/:_id', function(req,res,next){
 /* POST to creat new item in items collection */
 router.post('/addItem', function(req, res, next){
 	
-	/* using the form data to make a new item and save in db */
-	
-	var item = Item(req.body);
-	item.save()
-		.then( (doc) => {
-			console.log(doc);
-			res.redirect('/')
-		})
-		.catch( (err) => {
-			
-			if (err.name === 'ValidationError'){
-				//chekcing for validation errors
-				//more than one error will be combined into one message
+	 if (!req.body || !req.body.name) {
+    //no item text info, redirect to home page with flash message
+    req.flash('error', 'please enter an item');
+    res.redirect('/');
+  }
+  else {
+
+    // Insert into database. New items.
+
+    // Create a new Task, an instance of the Task schema, and call save()
+    new Item( { creator: req.user._id, name: req.body.name} ).save()
+      .then((newItem) => {
+        console.log('The new item created is: ', newItem);
+        res.redirect('/');
+      })
+      .catch((err) => {
+		  if (err.name === 'ValidationError'){
+				// checks for validation errors
+				//if more than one error all will be combined
 				req.flash('error', err.message);
 				res.redirect('/');
 			}
 			else {
-				//generic error handler
+				//passes a generic error
 				next(err);
-			}			
-		});
+			}
+      });
+  }
 });
 
 /* post to change description for an item. item id is expected in the body */
 router.post('/changeDescription', function(req, res, next){
 	
 	
-	Item.findOneAndUpdate({_id: req.body._id}, {description :[req.body.description] } )
+	Item.findOneAndUpdate({creator:req.user._id, _id: req.body._id}, {description :[req.body.description] } )
 		.then( (doc) => {
 			if (doc) {
 				res.redirect('/item/' + req.body._id); //redirects to this item's info page
@@ -91,7 +118,7 @@ router.post('/changeDescription', function(req, res, next){
 router.post('/changeItemQuanity', function(req, res, next){
 	
 	
-	Item.findOneAndUpdate({_id: req.body._id}, {quanity :req.body.quanity } )
+	Item.findOneAndUpdate({creator:req.user._id, _id: req.body._id}, {quanity :req.body.quanity } )
 		.then( (doc) => {
 			if (doc) {
 				res.redirect('/item/' + req.body._id); //redirects to this Item's info page
@@ -120,7 +147,7 @@ router.post('/changeItemQuanity', function(req, res, next){
 router.post('/changeStorageLocation', function(req, res, next){
 	
 	
-	Item.findOneAndUpdate({_id: req.body._id}, {storageLocation :[req.body.storageLocation] } )
+	Item.findOneAndUpdate({creator:req.user._id, _id: req.body._id}, {storageLocation :[req.body.storageLocation] } )
 		.then( (doc) => {
 			if (doc) {
 				res.redirect('/item/' + req.body._id); //redirects to this item's info page
@@ -149,7 +176,7 @@ router.post('/changeStorageLocation', function(req, res, next){
 router.post('/changeBarrowedLocation', function(req, res, next){
 	
 	
-	Item.findOneAndUpdate({_id: req.body._id}, {location :[req.body.location] } )
+	Item.findOneAndUpdate({creator:req.user._id, _id: req.body._id}, {location :[req.body.location] } )
 		.then( (doc) => {
 			if (doc) {
 				res.redirect('/item/' + req.body._id); //redirects to this item's info page
@@ -178,7 +205,7 @@ router.post('/changeBarrowedLocation', function(req, res, next){
 router.post('/addDateBarrowed', function(req, res, next){
 	
 	
-	Item.findOneAndUpdate({_id: req.body._id}, {dateTaken :req.body.dateTaken }, {runValidators: true} )
+	Item.findOneAndUpdate({creator:req.user._id, _id: req.body._id}, {dateTaken :req.body.dateTaken }, {runValidators: true} )
 		.then( (doc) => {
 			if (doc) {
 				res.redirect('/item/' + req.body._id); //redirects to this item's info page
@@ -207,7 +234,7 @@ router.post('/addDateBarrowed', function(req, res, next){
 router.post('/changeWhoBarrowed', function(req, res, next){
 	
 	
-	Item.findOneAndUpdate({_id: req.body._id}, {whoBarrowed :[req.body.whoBarrowed] } )
+	Item.findOneAndUpdate({creator:req.user._id, _id: req.body._id}, {whoBarrowed :[req.body.whoBarrowed] } )
 		.then( (doc) => {
 			if (doc) {
 				res.redirect('/item/' + req.body._id); //redirects to this item's info page
@@ -235,7 +262,7 @@ router.post('/changeWhoBarrowed', function(req, res, next){
 /* Post task to delete an item */
 router.post('/delete', function(req, res, next){
 	
-	Item.deleteOne({_id : req.body._id })
+	Item.deleteOne({creator:req.user._id, _id : req.body._id })
 		.then((result) => {
 			if (result.deleteCount === 1) {
 				res.redirect('/');
