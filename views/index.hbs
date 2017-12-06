@@ -9,14 +9,15 @@
 	
 	{{!-- Post to collect input for new items --}}
 	<form method='POST' action='/addItem'>
-		Name:<input name='name' required/>
-		<br>Description: <input name='description'/>
-		<br>Quanity: <input name='quanity' value='1'/>
-		<br>Location:<input name='storageLocation'/>
+		<p><label>Name:</label><input name='name' required/></p>
+		<p><label>Description:</label><input name='description'/></p>
+		<p><label>Quanity:</label><input type='number' name='quanity' 
+		min='0' max ='400' value='1'/></p>
+		<p><label>Location:</label><input name='storageLocation'/></p>
 		<input type="hidden" name='location'/>
 		<input type="hidden" name='dateTaken'/>
 		<input type='hidden' name='whoBarrowed'/>
-		<br><input type='submit' value='Enter Item'>
+		<input type='submit' value='Enter Item'>
 	</form>
 
 	<div class='flash-errors'>

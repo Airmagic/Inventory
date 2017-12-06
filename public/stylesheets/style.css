@@ -1,8 +1,67 @@
+
+/* style for the body of the webpage */
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color:darkgreen;
+  color: white;
 }
 
+/*style for the header 1 */
+h1 {
+ Text-align: center;
+ text-decoration: underline;
+}
+
+input[type="text"] {
+    width:100px;
+	height:30px;	
+	background-color: lightblue;
+	margin-left:2px;
+    position:relative;
+}
+
+label{
+    display:inline-block;
+    width:100px;
+}
+
+/* style for the class = submit */
+.submit{
+	background-color: lightgreen;
+	color: orange	;
+}
+
+/* style for the mouse over class= submit */
+.submit:hover{
+	background-color:#7fff5b;
+}
+
+/* style for the class = delete_button */
+.delete_button{
+	background-color:red;
+	color:white;
+}
+/* style for mouse over class = delete_button */
+.delete_button:hover{
+	color: green;
+	background-color: #ff5b5b;
+}
+
+
+/* style for hyperlinks */
 a {
   color: #00B7FF;
 }
+
+input{
+	background-color:green;
+	color:white;
+}
+
+textarea{
+	background-color:green;
+	color:white;
+}
+
+
