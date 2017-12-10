@@ -65,7 +65,7 @@ router.post('/addItem', function(req, res, next){
     // Insert into database. New items.
 
     // Create a new Task, an instance of the Task schema, and call save()
-    new Item( { creator: req.user._id, name: req.body.name} ).save()
+    new Item( { creator: req.user._id, name: req.body.name}, {unique: true} ).save()
       .then((newItem) => {
         console.log('The new item created is: ', newItem);
         res.redirect('/');
