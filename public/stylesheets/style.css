@@ -13,6 +13,7 @@ h1 {
  text-decoration: underline;
 }
 
+/* style for the input names to make the boxes line up  */
 input[type="text"] {
     width:100px;
 	height:30px;	
@@ -21,6 +22,7 @@ input[type="text"] {
     position:relative;
 }
 
+/* style for lables to make them line up */
 label{
     display:inline-block;
     width:100px;
@@ -54,11 +56,13 @@ a {
   color: #00B7FF;
 }
 
+/* style for input boxs */
 input{
 	background-color:green;
 	color:white;
 }
 
+/* style for the textarea */
 textarea{
 	background-color:green;
 	color:white;

@@ -19,7 +19,7 @@ var itemSchema = new mongoose.Schema({
 	dateTaken: [Date], //date loaned out
 	whoBarrowed: String, // who has the tool
 	
-	creator: {type: ObjectId, ref: 'User'}
+	creator: {type: ObjectId, ref: 'User'} //the user for the item that is in the database
 	
 });
 

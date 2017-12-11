@@ -23,8 +23,10 @@ mongoose.connect(mongo_url, { useMongoClient: true })
 	.then( () => { console.log('Connected to MongoDB')})
 	.catch( (err) => { console.log('Error connecting to MongoDB', err);});
 
+//making the routes into variables 
 var items = require('./routes/items');
 var auth = require('./routes/auth');
+
 
 var app = express();
 
@@ -49,6 +51,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+//making the variable store for MongoDB
 var store = MongoDBStore({ uri: mongo_url, collection : 'items_session'});
 app.use(session({
 	secret:'top secret',
@@ -64,6 +67,7 @@ app.use(flash());
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+//what is used first when the site is accessed
 app.use('/auth', auth); //order matters
 app.use('/', items);
 
