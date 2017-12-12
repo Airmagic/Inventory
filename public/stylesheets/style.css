@@ -16,7 +16,7 @@ h1 {
 /* style for the input names to make the boxes line up  */
 input[type="text"] {
     width:100px;
-	height:30px;	
+	height:25px;	
 	background-color: green;
 	margin-left:2px;
     position:relative;
@@ -25,6 +25,7 @@ input[type="text"] {
 /* style for lables to make them line up */
 label{
     display:inline-block;
+	height:20px;
     width:100px;
 }
 
