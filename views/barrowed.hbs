@@ -1,0 +1,15 @@
+{{!-- This loads the list of items and the link to the items page --}}
+<div class='barrowed-list'>
+	<h2>People who Barrowed tools</h2>
+	
+	<div class='barrowed-summary'>
+	
+		{{#each whoBarrowed}}
+			<h3>{{this.whoBarrowed}}</h3>
+			<p><a href='/barrowed/{{this._id}}'> What is Barrowed</a></p>
+		{{else}}
+			<p>No items out</p>
+		{{/each}}
+	
+	</div>
+</div>

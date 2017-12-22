@@ -11,7 +11,7 @@
 	<form method='POST' action='/addItem'>
 		<p><label>Name:</label><input name='name' required/></p>
 		<p><label>Description:</label><input name='description'/></p>
-		<p><label>Quanity:</label><input type='number' name='quanity' 
+		<p><label>Quantity:</label><input type='number' name='quanity' 
 		min='0' max ='400' value='1'/></p>
 		<p><label>Location:</label><input name='storageLocation'/></p>
 		<input type="hidden" name='location'/>
@@ -27,6 +27,22 @@
 		{{/if}}
 	</div>
 
+</div>
+
+{{!-- This loads the list of items and the link to the items page --}}
+<div class='barrowed-list'>
+	<h2>People who Barrowed tools</h2>
+	
+	<div class='barrowed-summary'>
+	
+		{{#each items}}
+			<h3>{{this.whoBarrowed}}</h3>
+			<p><a href='/barrowed/{{this._id}}'> What is Barrowed</a></p>
+		{{else}}
+			<p>No items out</p>
+		{{/each}}
+	
+	</div>
 </div>
 
 {{!-- This loads the list of items and the link to the items page --}}

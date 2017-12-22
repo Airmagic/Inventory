@@ -69,4 +69,7 @@ textarea{
 	color:white;
 }
 
+form {
+	display: inline; 
+}
 

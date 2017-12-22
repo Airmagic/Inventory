@@ -14,7 +14,7 @@
 		<input class='submit' type='submit' value='Submit'>
 	</form>
 	
-	<h2>Quanity</h2>
+	<h2>Quantity</h2>
 	
 	
 	
@@ -59,24 +59,43 @@
 		<input class='submit' type='submit' value='Submit'>
 	</form>
 	
+	<form method='POST' action="/addDateBarrowed">
+		<input type='hidden' name="location" value=''/>
+		<input type='hidden' name='_id' value='{{item._id}}'>
+		<input class='clear' type='submit' value='Clear'>
+	</form>
+	
 	<p>Location: </p>
 	
 	<form method='POST' action="/changeBarrowedLocation">
 		<input name="location" value='{{item.location}}'/>
 		<input type='hidden' name='_id' value='{{item._id}}'>
 		<p></p>
-		<input class='submit' type='submit' value='Submit'>
+		<input class='submit' type='submit' value='Submit'/>
 	</form>
-
+	
+	<form method='POST' action="/changeBarrowedLocation">
+		<input type='hidden' name="location" value=''/>
+		<input type='hidden' name='_id' value='{{item._id}}'>
+		<input class='clear' type='submit' value='Clear'>
+	</form>
+	
+	</br>
 	
 	<p>Who Barrowed {{item.name}}</p>
 	
-	<form method='POST' action="/changeWhoBarrowed">
-		<input name="whoBarrowed" value='{{item.whoBarrowed}}'/>
-		<input type='hidden' name='_id' value='{{item._id}}'>
-		<p></p>
-		<input class='submit' type='submit' value='Submit'>
-	</form>
+		<form method='POST' action="/changeWhoBarrowed">
+			<input name="whoBarrowed" value='{{item.whoBarrowed}}'/>
+			<input type='hidden' name='_id' value='{{item._id}}'>
+			<p></p>
+			<input class='submit' type='submit' value='Submit'/>
+		</form>
+	
+		<form method='POST' action="/changeWhoBarrowed">
+			<input type='hidden' name="whoBarrowed" value=''/>
+			<input type='hidden' name='_id' value='{{item._id}}'>
+			<input class='clear' type='submit' value='Clear'>
+		</form>
 	
 	</br>
 
@@ -88,4 +107,7 @@
 		<input class='delete_button' type='submit' name='delete' value='Delete {{item.name}}'>
 	</form>
 	
+
+	
 </div>
+
