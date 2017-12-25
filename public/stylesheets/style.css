@@ -31,7 +31,7 @@ label{
 
 /* style for the class = submit */
 .submit{
-	background-color: lightgreen;
+	background-color: purple;
 	color: orange	;
 }
 
@@ -69,6 +69,7 @@ textarea{
 	color:white;
 }
 
+/* puts buttons inlined */
 form {
 	display: inline; 
 }

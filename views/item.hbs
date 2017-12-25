@@ -14,16 +14,16 @@
 		<input class='submit' type='submit' value='Submit'>
 	</form>
 	
-	<h2>Quantity</h2>
+	<h2>Quantity {{item.quantity}}</h2>
 	
 	
 	
-	{{!-- making a form to post a canged to average eggs --}}
+	{{!-- making a form to post a changed to average eggs --}}
 	<form method='POST' action='/changeItemQuanity'>
-		<input type='number' min='0' max='400' name='quanity' value='{{item.quanity}}'>
+		<input type='number' min='0' max='400' name='quantity' value='{{item.quantity}}'>
 		<input type='hidden' name='_id' value='{{item._id}}'>
-		{{!-- calling the Quanity from the server --}}
-		<p>Change the Quanity of the {{item.name}}</p>
+		{{!-- calling the Quantity from the server --}}
+		<p>Change the Quantity of the {{item.name}}</p>
 		<input class='submit' type='submit' value='Submit'>
 	</form>
 	
@@ -41,15 +41,15 @@
 	<h2>Checked out 
 	<br>Date/Location/Who</h2>
 	
-	{{! form to take in the information for the date barrowed }}
+	{{! form to take in the information for the date borrowed }}
 	<form method='POST' action="/addDateBarrowed">
-		<p>Barrowed date: 
+		<p>Borrowed date: 
 			<div class="dateBarrowed">
 				{{#each item.dateTaken}}
-					{{! formated the date so it is more readible }}
+					{{! formated the date so it is more readable }}
 					<p>{{formatDate this}}</p>
 				{{else}}
-					<p>{{item.name}} has not been barrowed</p>
+					<p>{{item.name}} has not been borrowed</p>
 				{{/each}}
 			</div>
 		</p>
@@ -92,7 +92,7 @@
 		</form>
 	
 		<form method='POST' action="/changeWhoBarrowed">
-			<input type='hidden' name="whoBarrowed" value=''/>
+			<input type='hidden' name="whoBarrowed" value=null />
 			<input type='hidden' name='_id' value='{{item._id}}'>
 			<input class='clear' type='submit' value='Clear'>
 		</form>
@@ -101,7 +101,7 @@
 
 	<h2>If you want to delete this Item</h2>
 			
-	{{! A button to delete the bird from the DB }}
+	{{! A button to delete the items from the DB }}
 	<form action='/delete' method='POST' class='delete_form'>
 		<input type='hidden' name='_id' value='{{item._id}}'>
 		<input class='delete_button' type='submit' name='delete' value='Delete {{item.name}}'>

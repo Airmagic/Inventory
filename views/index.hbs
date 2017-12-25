@@ -11,12 +11,11 @@
 	<form method='POST' action='/addItem'>
 		<p><label>Name:</label><input name='name' required/></p>
 		<p><label>Description:</label><input name='description'/></p>
-		<p><label>Quantity:</label><input type='number' name='quanity' 
-		min='0' max ='400' value='1'/></p>
+		<p><label>Quantity:</label><input type='number' name='quantity' min='0' max ='400' value='1'/></p>
 		<p><label>Location:</label><input name='storageLocation'/></p>
 		<input type="hidden" name='location'/>
 		<input type="hidden" name='dateTaken'/>
-		<input type='hidden' name='whoBarrowed'/>
+		<input type='hidden' name='whoBarrowed' value='null'/>
 		<input type='hidden' name='creator'/>
 		<input type='submit' value='Enter Item'>
 	</form>
@@ -36,8 +35,8 @@
 	<div class='barrowed-summary'>
 	
 		{{#each items}}
-			<h3>{{this.whoBarrowed}}</h3>
-			<p><a href='/barrowed/{{this._id}}'> What is Barrowed</a></p>
+				<h3>{{this.whoBarrowed}}</h3>
+				<p><a href='/barrowed/{{this._id}}'> What is Barrowed</a></p>
 		{{else}}
 			<p>No items out</p>
 		{{/each}}
